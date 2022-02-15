@@ -1,3 +1,6 @@
 class Solution:
     def singleNumber(self, nums: List[int]) -> int:
-        return functools.reduce(operator.xor, nums)
+        ans = 0
+        for x in nums:
+            ans = ans^x
+        return ans
