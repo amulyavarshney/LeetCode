@@ -1,17 +1,17 @@
 class Solution:
-    def combinationSum(self, candidates: List[int], target: int) -> List[List[int]]:
-        result = []
-        candidates = sorted(candidates)
-        def dfs(remain, stack):
-            if remain == 0:
-                result.append(stack)
+    def combinationSum(self, nums: List[int], target: int) -> List[List[int]]:
+        n = len(nums)
+        ans = []
+        def backtrack(cur, s, i):
+            if s == target:
+                ans.append(cur[:])
+                return
+            if s > target:
                 return 
-    
-            for item in candidates:
-                if item > remain: break
-                if stack and item < stack[-1]: continue
+            for j in range(i, n):
+                if s < target:
+                    backtrack(cur+[nums[j]], s+nums[j], j)
                 else:
-                    dfs(remain - item, stack + [item])
-        
-        dfs(target, [])
-        return result
+                    backtrack(cur, s, j+1)
+        backtrack([], 0, 0)
+        return ans
