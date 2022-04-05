@@ -5,7 +5,5 @@ class Solution:
             return mat
         ans = [[0]*c for _ in range(r)]
         for i in range(m*n):
-            x, y = divmod(i, n)
-            a, b = divmod(i, c)
-            ans[a][b] = mat[x][y]
+            ans[i//c][i%c] = mat[i//n][i%n]
         return ans
