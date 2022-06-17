@@ -6,15 +6,15 @@
 #         self.right = right
 class Solution:
     def minCameraCover(self, root: Optional[TreeNode]) -> int:
-        def solve(node):
-            if not node:
-                return 0, 0, 1
-            L = solve(node.left)
-            R = solve(node.right)
-            
-            dp0 = L[1] + R[1]
-            dp1 = min(L[2] + min(R[1], R[2]), min(L[1], L[2]) + R[2])
-            dp2 = 1 + min(L) + min(R)
-            
-            return dp0, dp1, dp2
-        return min(solve(root)[1:])
+        self.ans = 0
+        covered = {None}
+        def dfs(node, par = None):
+            if node:
+                dfs(node.left, node)
+                dfs(node.right, node)
+                
+                if(par is None and node not in covered or node.left not in covered or node.right not in covered):
+                    self.ans += 1
+                    covered.update({par, node, node.left, node.right})
+        dfs(root)
+        return self.ans
