@@ -1,0 +1,1 @@
+SELECT DISTINCT p1.email FROM person as p1 JOIN person as p2 ON p1.id != p2.id AND p1.email = p2.email;
