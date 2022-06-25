@@ -1,7 +1,7 @@
 class Solution:
     def splitArray(self, nums: List[int], m: int) -> int:
         l, r = max(nums), sum(nums)
-        while(l<r):
+        while(l<=r):
             mid = l + (r-l)//2
             s, c = 0, 1
             for x in nums:
@@ -10,7 +10,7 @@ class Solution:
                     c += 1
                     s = x
             if c <= m:
-                r = mid
+                r = mid-1
             else:
                 l = mid+1
-        return l
+        return r+1
