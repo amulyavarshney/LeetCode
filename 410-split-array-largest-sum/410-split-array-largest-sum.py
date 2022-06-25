@@ -1,21 +1,16 @@
-from functools import lru_cache
 class Solution:
-    def is_valid(self, nums, m, mid):
-        # assume mid is < max(nums)
-        cuts, curr_sum  = 0, 0
-        for x in nums:
-            curr_sum += x
-            if curr_sum > mid:
-                cuts, curr_sum = cuts+1, x
-        subs = cuts + 1
-        return (subs <= m)
-    
-    def splitArray(self, nums, m):
-        low, high, ans = max(nums), sum(nums), -1
-        while low <= high:
-            mid = (low+high)//2
-            if self.is_valid(nums, m, mid): # can you make at-most m sub-arrays with maximum sum atmost mid 
-                ans, high = mid, mid-1
+    def splitArray(self, nums: List[int], m: int) -> int:
+        l, r = max(nums), sum(nums)
+        while(l<r):
+            mid = l + (r-l)//2
+            s, c = 0, 1
+            for x in nums:
+                s += x
+                if s > mid:
+                    c += 1
+                    s = x
+            if c <= m:
+                r = mid
             else:
-                low = mid + 1
-        return ans
+                l = mid+1
+        return l
