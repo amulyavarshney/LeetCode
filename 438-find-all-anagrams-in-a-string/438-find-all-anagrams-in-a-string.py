@@ -1,14 +1,17 @@
 class Solution:
     def findAnagrams(self, s: str, p: str) -> List[int]:
-        n = len(p)
-        d1, d2 = [0]*26, [0]*26
+        if len(s) < len(p):
+            return []
+        dict_p, dict_s = [0]*26, [0]*26
+        for i in range(len(p)):
+            dict_p[ord(p[i])-97] += 1
+            dict_s[ord(s[i])-97] += 1
         ans = []
-        for x in p:
-            d1[ord(x)-97] += 1
-        for i in range(len(s)):
-            if sum(d2)>=sum(d1):
-                d2[ord(s[i-n])-97] -= 1
-            d2[ord(s[i])-97] += 1
-            if d1 == d2:
-                ans.append(i-n+1)
+        for i in range(len(p), len(s)):
+            if dict_s == dict_p:
+                ans.append(i-len(p))
+            dict_s[ord(s[i-len(p)])-97] -= 1
+            dict_s[ord(s[i])-97] += 1
+        if dict_s == dict_p:
+            ans.append(len(s)-len(p))
         return ans
