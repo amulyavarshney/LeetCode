@@ -1,16 +1,14 @@
 class Solution:
     def backspaceCompare(self, s: str, t: str) -> bool:
-        a, b = [], []
+        stack1, stack2 = [], []
         for x in s:
-            if x == '#':
-                if len(a)>0:
-                    a.pop()
-            else:
-                a.append(x)
+            if x != '#':
+                stack1.append(x)
+            elif stack1:
+                stack1.pop()
         for x in t:
-            if x == '#':
-                if len(b)>0:
-                    b.pop()
-            else:
-                b.append(x)
-        return a == b
+            if x != '#':
+                stack2.append(x)
+            elif stack2:
+                stack2.pop()
+        return stack1 == stack2
