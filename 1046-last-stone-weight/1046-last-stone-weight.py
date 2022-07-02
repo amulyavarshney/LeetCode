@@ -5,5 +5,5 @@ class Solution:
         while len(stones) > 1:
             stone1 = heapq.heappop(stones)
             stone2 = heapq.heappop(stones)
-            heapq.heappush(stones, -abs(stone1-stone2))
-        return -stones[0] or 0
+            heapq.heappush(stones, stone1-stone2)
+        return -stones[0]
