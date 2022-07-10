@@ -1,16 +1,19 @@
 class Solution:
     def maxResult(self, nums: List[int], k: int) -> int:
-        dp = [0] * len(nums)
+        n = len(nums)
+        dp = [-float("inf")]*n
         dp[0] = nums[0]
-        d = deque([(nums[0],0)])
-        for i in range(1, len(nums)):
-            dp[i] = nums[i] + d[0][0]
-            
-            while d and d[-1][0] < dp[i]:   # sliding window maximum variation
-                d.pop()                     # sliding window maximum variation
-            d.append((dp[i],i))             # sliding window maximum variation
-            
-            if i-k == d[0][1]:              # sliding window maximum variation
-                d.popleft()                 # sliding window maximum variation
-                
+        queue = collections.deque([(dp[0], 0)])
+        countAdded, countRemoved = 1, 0
+        for i in range(1, n):
+            dp[i] = max(dp[i], dp[queue[0][1]]+nums[i])
+            if countAdded-countRemoved >= k:
+                if queue and queue[0][1] == countRemoved:
+                    queue.popleft()
+                countRemoved += 1
+            while queue and queue[-1][0] <= dp[i]:
+                queue.pop()
+            queue.append((dp[i], i))
+            countAdded += 1
         return dp[-1]
+        
