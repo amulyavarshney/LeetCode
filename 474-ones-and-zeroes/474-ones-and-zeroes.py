@@ -1,13 +1,16 @@
 class Solution:
     def findMaxForm(self, strs: List[str], m: int, n: int) -> int:
-        xy = [[s.count("0"), s.count("1")] for s in strs]
-
-        @lru_cache(None)
-        
-        def dp(mm, nn, kk):
-            if mm < 0 or nn < 0: return -float("inf")
-            if kk == len(strs): return 0
-            x, y = xy[kk]
-            return max(1 + dp(mm-x, nn-y, kk + 1), dp(mm, nn, kk + 1))
-        
-        return dp(m, n, 0)
+        dp = [[[-1]*(n+1) for _ in range(m+1)] for __ in range(len(strs))]
+        def rec(i, m, n):
+            if(i<0):
+                return 0
+            if dp[i][m][n] != -1:
+                return dp[i][m][n]
+            zeros = strs[i].count('0')
+            ones = len(strs[i])-zeros
+            if(zeros > m or ones > n):
+                dp[i][m][n] = rec(i-1, m, n)
+            else:
+                dp[i][m][n] = max(rec(i-1, m-zeros, n-ones)+1, rec(i-1, m, n))
+            return dp[i][m][n]
+        return rec(len(strs)-1, m, n)
